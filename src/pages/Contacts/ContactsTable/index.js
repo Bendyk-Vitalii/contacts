@@ -12,6 +12,8 @@ import {
 import { makeStyles } from "@mui/styles"
 import { format, parseISO } from "date-fns"
 import { CopyToClipboardText } from "../../../component/ClipBoardText"
+import { NATIONALITIES_HUMAN_NAME } from "../../../constants/nationality"
+
 
 const useStyles = makeStyles({
   table: {},
@@ -54,12 +56,17 @@ export const ContactTable = ({ data }) => {
                 </Typography>
                 <Typography>{row.dob.age} years</Typography>
               </TableCell>
-              <TableCell>{row.email}</TableCell>
+              <TableCell>
+              <CopyToClipboardText text={row.email} />
+              </TableCell>
               <TableCell>
                 <CopyToClipboardText text={row.phone} />
               </TableCell>
-              <TableCell>{row.location.country}</TableCell>
-              <TableCell>{row.nat}</TableCell>
+              <TableCell>
+              <Typography>{row.location.country}</Typography>
+              <Typography>{row.location.city} {row.location.street.name} </Typography>
+                </TableCell>
+              <TableCell>{NATIONALITIES_HUMAN_NAME[row.nat]}</TableCell>
             </TableRow>
           ))}
         </TableBody>

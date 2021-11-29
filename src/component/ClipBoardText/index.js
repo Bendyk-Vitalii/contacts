@@ -1,11 +1,11 @@
-import { Box } from "@mui/system"
 import { PropTypes } from "prop-types"
 import { FileCopyOutlined } from "@mui/icons-material"
 import { createStyles, makeStyles } from "@mui/styles"
 import { useCopyToClipboard } from "react-use"
 import Tooltip from "@mui/material/Tooltip"
 import { Button } from "@mui/material"
-import { forwardRef, useState, useCallback } from "react"
+import { useState, useCallback } from "react"
+import { ClickAwayListener } from "@material-ui/core"
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -18,51 +18,43 @@ const useStyles = makeStyles(() =>
   })
 )
 
-// const CopyToClipboardTextView = forwardRef(function MyComponent(props, ref) {
-//   return (
-//     <div {...props} ref={ref}>
-//         {props.children}
-//     </div>
-//   )
-// })
+const STATUS_COPY = {
+COPY: "copy",
+COPIED: "copied",
+}
+
+const TITLE_BY_STATUS = {
+  [STATUS_COPY.COPY]: "Copy",
+  [STATUS_COPY.COPIED]: "Copied",
+}
 
 export const CopyToClipboardText = ({ text }) => {
   const classes = useStyles()
-  const [state, copyToClipboard] = useCopyToClipboard()
-  const [statusCopy, setStatusCopy] = useState("copy")
-
-  const tooltipTitle = () => {
-    switch (statusCopy) {
-      case "copy":
-        return "Copy"
-      case "copied":
-        return "Copied"
-      default:
-        return ";"
-    }
-  }
+  const [, copyToClipboard] = useCopyToClipboard()
+  const [statusCopy, setStatusCopy] = useState(STATUS_COPY.COPY)
 
   const onClickCopy = useCallback(() => {
     copyToClipboard(text)
-    setStatusCopy("copied")
+    setStatusCopy(STATUS_COPY.COPIED)
   }, [copyToClipboard, text])
 
-  const onMouseLeaveCopy = useCallback(() => {
-    setStatusCopy("copy")
+  const onClickAway = useCallback(() => {
+    setStatusCopy(STATUS_COPY.COPY)
   }, [setStatusCopy])
 
   return (
-    <Tooltip title={tooltipTitle()} arrow>
+      <ClickAwayListener onClickAway={onClickAway}>
+    <Tooltip title={TITLE_BY_STATUS[statusCopy]} arrow>
       <Button
         display="flex"
         className={classes.root}
         onClick={onClickCopy}
-        onMouseLeave={onMouseLeaveCopy}
       >
         <FileCopyOutlined fontSize="small" className={classes.icon} />
         {text}
       </Button>
     </Tooltip>
+    </ClickAwayListener>
   )
 }
 
