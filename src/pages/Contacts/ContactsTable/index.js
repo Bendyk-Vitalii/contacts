@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 export const ContactTable = ({ data }) => {
   const classes = useStyles()
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} data-testid="contacts_table-container">
       <Table className={classes.table} aria-label="contacts table">
         <TableHead>
           <TableRow>
