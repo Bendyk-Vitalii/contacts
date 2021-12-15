@@ -8,7 +8,7 @@ import { ToggleDataViewMode } from "./ToggleDataViewMode"
 import { useDataViewMode } from "./useDataViewMode"
 import { DATA_VIEW_MODE } from "./constants"
 import { ContactsFilters } from "./ContactsFilters"
-
+import { GridView } from "./ContactsGrid"
 const FiltersDefaultValue = {
   fullname: "",
   gender: "all",
@@ -78,7 +78,7 @@ export const Contacts = () => {
               return <ContactTable data={filteredContacts} />
             }
             if (dataViewMode === DATA_VIEW_MODE.GRID) {
-              return "grid"
+              return <GridView data={filteredContacts} />
             }
             return null
           })()}
