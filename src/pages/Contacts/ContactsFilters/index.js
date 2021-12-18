@@ -14,6 +14,7 @@ import { memo } from "react"
 
 const FieldFullName = memo(({ value, onChange }) => (
   <TextField
+    aria-label="Fullname"
     name="fullname"
     label="Fullname"
     variant="outlined"
