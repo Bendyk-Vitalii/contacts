@@ -1,12 +1,14 @@
 import { ToggleButtonGroup, ToggleButton } from "@mui/material"
 import ViewListIcon from "@mui/icons-material/ViewList"
 import ViewModuleIcon from "@mui/icons-material/ViewModule"
-import { useCallback } from "react"
+import { useCallback, memo } from "react"
 import { DATA_VIEW_MODE } from "../constants"
 import { PropTypes } from "prop-types"
 
-export const ToggleDataViewMode = ( {dataViewMode, setDataViewMode} ) => {
-  const handleChangeViewMode = useCallback((_, nextView) => {
+
+export const ToggleDataViewMode = memo(( {dataViewMode, setDataViewMode} ) => {
+  const handleChangeViewMode = useCallback(
+    (_, nextView) => {
     setDataViewMode(nextView)
   },
   [setDataViewMode]
@@ -32,7 +34,7 @@ export const ToggleDataViewMode = ( {dataViewMode, setDataViewMode} ) => {
       </ToggleButton>
     </ToggleButtonGroup>
   )
-}
+})
 
 ToggleDataViewMode.propsTypes = {
   dataViewMode: PropTypes.oneOf([DATA_VIEW_MODE.TABLE, DATA_VIEW_MODE.GRID]).isRequired,

@@ -35,9 +35,9 @@ export const ContactTable = ({ data }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {console.log(data)}
           {data.map((row) => (
             <TableRow
+              data-testid="contacts-table-row"
               key={row.login.uuid}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >

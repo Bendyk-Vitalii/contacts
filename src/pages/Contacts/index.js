@@ -9,9 +9,11 @@ import { useDataViewMode } from "./useDataViewMode"
 import { DATA_VIEW_MODE } from "./constants"
 import { ContactsFilters } from "./ContactsFilters"
 import { GridView } from "./ContactsGrid"
+
 const FiltersDefaultValue = {
   fullname: "",
   gender: "all",
+  nationality: "all",
 }
 
 const filterByFullname = ({ first, last }, fullname) => {
@@ -28,8 +30,14 @@ const filterByGender = (value, gender) => {
   return value === gender
 }
 
-export const Contacts = () => {
+const filterByNationality = (value, nat) => {
+  if (nat === "all") {
+    return true
+  }
+  return value === nat
+}
 
+export const Contacts = () => {
   const contacts = useContacts()
   const classes = useStyles()
   const [dataViewMode, setDataViewMode] = useDataViewMode()
@@ -43,13 +51,18 @@ export const Contacts = () => {
     }))
   }
 
+  const clearFilters = () => {
+    setFilters(FiltersDefaultValue)
+  }
+
   const filteredContacts = contacts.data
-  .filter((item) => filterByFullname(item.name, filters.fullname))
-  .filter((item) => filterByGender(item.gender, filters.gender))
+    .filter((item) => filterByFullname(item.name, filters.fullname))
+    .filter((item) => filterByGender(item.gender, filters.gender))
+    .filter((item) => filterByNationality(item.nat, filters.nationality))
 
   return (
-    <Container className={classes.root}>
-      <Grid container>
+    <Container className={classes.root} sx={{ mb: 20 }}>
+      <Grid container >
         <Grid item xs={12} className={classes.headContainer}>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="h3" component="h1">
@@ -62,7 +75,11 @@ export const Contacts = () => {
           </Box>
         </Grid>
         <Grid item xs={12} className={classes.filtersContainer}>
-    <ContactsFilters filters={filters} updateFilter={updateFilter} />
+          <ContactsFilters
+            filters={filters}
+            updateFilter={updateFilter}
+            clearFilters={clearFilters}
+          />
         </Grid>
         <Grid item xs={12}>
           {(() => {

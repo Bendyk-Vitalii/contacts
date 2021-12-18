@@ -15,16 +15,20 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export const GridView = ({ data }) => {
   return (
-    <Grid
-      container
-    >
+    <Grid container sx={{ justifyContent: 'center', mt:1 }}>
       {data.map((row) => {
         return (
-          <Grid item xl="4" key={row.login.uuid}>
+          <Grid item xl="4" lg="3" key={row.login.uuid} sx={{ margin:5 }}>
             <Item>
               <Card
                 sx={{
-                  height: "100%",
+                  maxWidth: {
+                    xs: "75vw",
+                    sm: "80vw",
+                    md: "45vw",
+                    lg: "50vw",
+                    xl: "45vw",
+                  },
                 }}
               >
                 <CardContent>
@@ -47,9 +51,9 @@ export const GridView = ({ data }) => {
                   </Typography>
                   <Typography>{row.dob.age} years</Typography>
                 </Box>
-                <Box p={2} flexDirection={row}>
-                  <Box p={2} flex={"auto"}>
-                    <Box p={2} flex={"auto"}>
+                <Box flexDirection={row}>
+                  <Box flex={"auto"}>
+                    <Box >
                       <Typography>Email</Typography>
                       <Typography>
                         <CopyToClipboardText text={row.email} />
